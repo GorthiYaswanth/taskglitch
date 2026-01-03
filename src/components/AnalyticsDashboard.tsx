@@ -14,7 +14,7 @@ interface Props {
 }
 
 export default function AnalyticsDashboard({ tasks }: Props) {
-  const baseTasks = tasks as unknown as Task[];
+  const baseTasks = tasks;
   const funnel = computeFunnel(baseTasks);
   const weekly = computeThroughputByWeek(baseTasks);
   const weightedPipeline = computeWeightedPipeline(baseTasks);
