@@ -89,16 +89,14 @@ function AppContent() {
           {error && <Alert severity="error">{error}</Alert>}
           {!loading && !error && (
             <MetricsBar
-              metricsOverride={
-                useMemo(() => ({
-                  totalRevenue: computeTotalRevenue(filtered),
-                  totalTimeTaken: filtered.reduce((s, t) => s + t.timeTaken, 0),
-                  timeEfficiencyPct: computeTimeEfficiency(filtered),
-                  revenuePerHour: computeRevenuePerHour(filtered),
-                  averageROI: computeAverageROI(filtered),
-                  performanceGrade: computePerformanceGrade(computeAverageROI(filtered)),
-                }), [filtered])
-              }
+              metricsOverride={{
+                totalRevenue: computeTotalRevenue(filtered),
+                totalTimeTaken: filtered.reduce((s, t) => s + t.timeTaken, 0),
+                timeEfficiencyPct: computeTimeEfficiency(filtered),
+                revenuePerHour: computeRevenuePerHour(filtered),
+                averageROI: computeAverageROI(filtered),
+                performanceGrade: computePerformanceGrade(computeAverageROI(filtered)),
+              }}
             />
           )}
           {!loading && !error && (
