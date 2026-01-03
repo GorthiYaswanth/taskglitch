@@ -1,26 +1,33 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { BarChart, PieChart } from '@mui/x-charts';
 import { DerivedTask } from '@/types';
+import { useMemo } from 'react';
 
 interface Props {
   tasks: DerivedTask[];
 }
 
 export default function ChartsDashboard({ tasks }: Props) {
-  const revenueByPriority = ['High', 'Medium', 'Low'].map(p => ({
-    priority: p,
-    revenue: tasks.filter(t => t.priority === (p as any)).reduce((s, t) => s + t.revenue, 0),
-  }));
-  const revenueByStatus = ['Todo', 'In Progress', 'Done'].map(s => ({
-    status: s,
-    revenue: tasks.filter(t => t.status === (s as any)).reduce((s2, t) => s2 + t.revenue, 0),
-  }));
-  const roiBuckets = [
+  const revenueByPriority = useMemo(() => 
+    ['High', 'Medium', 'Low'].map(p => ({
+      priority: p,
+      revenue: tasks.filter(t => t.priority === (p as any)).reduce((s, t) => s + t.revenue, 0),
+    }))
+  , [tasks]);
+
+  const revenueByStatus = useMemo(() => 
+    ['Todo', 'In Progress', 'Done'].map(s => ({
+      status: s,
+      revenue: tasks.filter(t => t.status === (s as any)).reduce((s2, t) => s2 + t.revenue, 0),
+    }))
+  , [tasks]);
+
+  const roiBuckets = useMemo(() => [
     { label: '<200', count: tasks.filter(t => t.roi !== null && t.roi < 200).length },
     { label: '200-500', count: tasks.filter(t => t.roi !== null && t.roi >= 200 && t.roi <= 500).length },
     { label: '>500', count: tasks.filter(t => t.roi !== null && t.roi > 500).length },
     { label: 'N/A', count: tasks.filter(t => t.roi === null).length },
-  ];
+  ], [tasks]);
 
   return (
     <Card>
@@ -66,5 +73,3 @@ export default function ChartsDashboard({ tasks }: Props) {
     </Card>
   );
 }
-
-

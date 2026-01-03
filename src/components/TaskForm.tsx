@@ -76,7 +76,8 @@ export default function TaskForm({ open, onClose, onSubmit, existingTitles, init
       priority: ((priority || 'Medium') as Priority),
       status: ((status || 'Todo') as Status),
       notes: notes.trim() || undefined,
-      ...(initial ? { id: initial.id } : {}),
+      createdAt: initial?.createdAt || new Date().toISOString(), // Add missing field
+      ...(initial ? { id: initial.id, completedAt: initial.completedAt } : {}),
     };
     onSubmit(payload);
     onClose();
